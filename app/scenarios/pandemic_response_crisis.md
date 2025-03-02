@@ -9,30 +9,35 @@ In January 2023, a novel respiratory virus called SARS-CoV-3 emerged in Southeas
 It's now April 2023, and the following challenges have emerged simultaneously:
 
 ### Healthcare System Strain
+
 - Hospitals in your network are at 87% capacity, with ICUs at 94% capacity
 - Provider burnout is increasing with 23% of network physicians reporting extreme stress
 - Elective procedures have been postponed, creating a backlog of 140,000+ procedures
 - Testing capacity is limited with 3-5 day wait times for results
 
 ### Telehealth Demand Surge
+
 - Telehealth requests have increased 1,200% in three weeks
 - Only 40% of your network providers are currently telehealth-enabled
 - Your telehealth infrastructure was designed to handle 50,000 visits monthly but is now receiving 45,000+ daily requests
 - Members are reporting 2+ hour wait times for virtual appointments
 
 ### Financial Pressures
+
 - Projected COVID-related care costs for your members: $1.2 billion over 12 months
 - Your company has $850 million in reserves (regulatory minimum is $720 million)
 - Q1 earnings are down 18% year-over-year
 - Investors are pressuring the board about financial stability
 
 ### Regulatory Environment
+
 - The government has mandated COVID testing coverage with no cost-sharing
 - Treatment coverage requirements remain unclear with evolving federal guidance
 - State insurance commissioners in your markets are demanding emergency coverage expansions
 - Competitors have announced waived copays for all COVID-related treatments
 
 ### Member Impact
+
 - Call center volume is up 340%, with average wait times of 47 minutes
 - Member satisfaction has dropped from 87% to 61% in one month
 - 22% of your members have lost employment due to pandemic economic effects
@@ -53,4 +58,4 @@ As CEO, you must make critical decisions that balance member needs, business sus
 - Network of 76,000 healthcare providers and 440 hospitals
 - Board of Directors and shareholders
 - State and federal regulators
-- Media and public advocacy groups 
+- Media and public advocacy groups
