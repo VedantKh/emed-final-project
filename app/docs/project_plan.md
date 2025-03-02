@@ -103,7 +103,7 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
   - Present realistic financial implications, member impact statistics, and media/public reaction details
 - [ ] **Establish question sets for each scenario (crossout only when all are complete)**:
   - [x] Pandemic Response Crisis
-  - [ ] Data Breach & Privacy Crisis
+  - [x] Data Breach & Privacy Crisis
   - [ ] Pharmaceutical Pricing Crisis
   - For each scenario, create 3 complex decision points with multiple viable approaches.
   - Frame each question in very simple language, targeting smart 9th graders with your language
