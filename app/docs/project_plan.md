@@ -142,7 +142,7 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
   - [x] **Pharmaceutical Pricing Crisis**: Design specialized criteria addressing affordability, treatment access, formulary management, and balancing financial stewardship with patient needs
 - [x] **Develop sample benchmark answers for each question in each crisis in app/scenarios/examples**:
   - [x] **Pandemic Response Crisis**:
-    - Create a low-scoring example response (1-3 range for both dimensions) 
+    - Create a low-scoring example response (1-3 range for both dimensions)
     - Develop a medium-scoring example response (4-6 range)
     - Craft a high-scoring example response (7-10 range)
     - (For later, make more examples of mixed score, high ethics, low strategy; low ethics, high strategy)
@@ -151,10 +151,11 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
     - Develop a medium-scoring example response (4-6 range)
     - Craft a high-scoring example response (7-10 range)
     - (For later, make more examples of mixed score, high ethics, low strategy; low ethics, high strategy)
-  - [ ] **Pharmaceutical Pricing Crisis**:
+  - [x] **Pharmaceutical Pricing Crisis**:
     - Create a low-scoring example response (1-3 range for both dimensions)
     - Develop a medium-scoring example response (4-6 range)
     - Craft a high-scoring example response (7-10 range)
+    - (For later, make more examples of mixed score, high ethics, low strategy; low ethics, high strategy)
 - [ ] **Compile real-world CEO crisis response examples**:
   - For each example, create a concise snippet (150-200 words) that includes:
     - Brief context of the crisis
@@ -164,6 +165,9 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
   - [ ] **Pandemic Response Crisis**: For each question, research and document 1 example of how a real life healthcare CEO dealt with a very similar crisis and the results from the decisions they made
   - [ ] **Data Breach & Privacy Crisis**: For each question, research and document 1 example of how a real life healthcare CEO dealt with a very similar crisis and the results from the decisions they made
   - [ ] **Pharmaceutical Pricing Crisis**: For each question, research and document 1 example of how a real life healthcare CEO dealt with a very similar crisis and the results from the decisions they made
+
+### Phase 3: **Scoring & Rubric Implementation**
+
 - [ ] **Implement post-conversation evaluation system**:
   - Create API endpoint to process conversation transcript with o3 mini
   - Design prompt template that includes:
@@ -187,7 +191,7 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
   - Include visual representation of scores (if UI supports)
   - Design section for displaying real-world CEO response examples
 
-### Phase 3: **Realtime API Audio Setup**
+### Phase 4: **Realtime API Audio Setup**
 
 - [ ] **WebRTC Implementation**:
   - Set up WebRTC peer connection to the Realtime API
@@ -206,7 +210,7 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
   - Implement event listeners for `error` events from the server
   - Handle audio connection issues and fallbacks
 
-### Phase 4: **Question & Follow-up Handling**
+### Phase 5: **Question & Follow-up Handling**
 
 - [ ] **Voice-driven Q&A flow**:
   - After scenario introduction, have the agent verbally ask the first question
@@ -221,7 +225,7 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
   - Include question prompts, user responses, and follow-up exchanges
   - Format transcript appropriately for post-conversation evaluation
 
-### Phase 5: **UI/UX Integration**
+### Phase 6: **UI/UX Integration**
 
 - [ ] **Design voice-centric interface**:
   - Crisis selection drop-down or list
@@ -244,7 +248,7 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
   - Provide visual cues for audio status
   - Consider fallback to text-only mode if needed
 
-### Phase 6: **Final Integration & Polishing**
+### Phase 7: **Final Integration & Polishing**
 
 - [ ] **Refine Voice Interaction**:
   - Test and optimize VAD settings for natural conversation flow
