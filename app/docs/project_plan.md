@@ -142,17 +142,19 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
   - [x] **Pharmaceutical Pricing Crisis**: Design specialized criteria addressing affordability, treatment access, formulary management, and balancing financial stewardship with patient needs
 - [x] **Develop sample benchmark answers for each question in each crisis in app/scenarios/examples**:
   - [x] **Pandemic Response Crisis**:
-    - Create 2 low-scoring example responses (1-3 range for both dimensions)
-    - Develop 2 medium-scoring example responses (4-6 range)
-    - Craft 2 high-scoring example responses (7-10 range)
-  - [ ] **Data Breach & Privacy Crisis**:
-    - Create 2 low-scoring example responses (1-3 range for both dimensions)
-    - Develop 2 medium-scoring example responses (4-6 range)
-    - Craft 2 high-scoring example responses (7-10 range)
+    - Create a low-scoring example response (1-3 range for both dimensions) 
+    - Develop a medium-scoring example response (4-6 range)
+    - Craft a high-scoring example response (7-10 range)
+    - (For later, make more examples of mixed score, high ethics, low strategy; low ethics, high strategy)
+  - [x] **Data Breach & Privacy Crisis**:
+    - Create a low-scoring example response (1-3 range for both dimensions)
+    - Develop a medium-scoring example response (4-6 range)
+    - Craft a high-scoring example response (7-10 range)
+    - (For later, make more examples of mixed score, high ethics, low strategy; low ethics, high strategy)
   - [ ] **Pharmaceutical Pricing Crisis**:
-    - Create 2 low-scoring example responses (1-3 range for both dimensions)
-    - Develop 2 medium-scoring example responses (4-6 range)
-    - Craft 2 high-scoring example responses (7-10 range)
+    - Create a low-scoring example response (1-3 range for both dimensions)
+    - Develop a medium-scoring example response (4-6 range)
+    - Craft a high-scoring example response (7-10 range)
 - [ ] **Compile real-world CEO crisis response examples**:
   - For each example, create a concise snippet (150-200 words) that includes:
     - Brief context of the crisis
