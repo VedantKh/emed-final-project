@@ -104,14 +104,14 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
   - **Pandemic Response Crisis**: Managing coverage policies, telehealth expansion, and provider network strain during a major infectious disease outbreak (e.g., COVID-19)
   - **Data Breach & Privacy Crisis**: Responding to a major cybersecurity incident exposing 2.3M members' protected health information and payment details
   - **Pharmaceutical Pricing Crisis**: Navigating public backlash after denying coverage for a breakthrough but extremely expensive cancer treatment
-- [x] **Draft scenario texts within app/scenarios**:
+- [x] **Draft scenario texts within app/scenarios/descriptions**:
   - [x] Pandemic Response Crisis scenario created with detailed metrics, stakeholders, and timeline pressures
   - [x] Data Breach & Privacy Crisis scenario created with detailed metrics, stakeholders, and timeline pressures
   - [x] Pharmaceutical Pricing Crisis scenario created with detailed metrics, stakeholders, and timeline pressures
   - Always use concrete, real-world examples and NEVER use hypothetical placeholders like "City A" or "Company B" in prompts. Always refer to actual companies, cities, technologies, or other entities by their real names.
   - Include relevant industry data, regulatory considerations (HIPAA, ACA requirements), and market context
   - Present realistic financial implications, member impact statistics, and media/public reaction details
-- [x] **Establish question sets for each scenario (crossout only when all are complete)**:
+- [x] **Establish question sets for each scenario in app/scenarios/questions (crossout only when all are complete)**:
   - [x] Pandemic Response Crisis
   - [x] Data Breach & Privacy Crisis
   - [x] Pharmaceutical Pricing Crisis
@@ -121,11 +121,11 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
 
 ### Phase 2: **Scoring & Rubric Implementation**
 
-- [ ] **Create custom rubrics for each crisis scenario following detailed instructions below (crossout only when all are complete)**:
+- [x] **Create custom rubrics for each crisis scenario in app/scenarios/rubrics following detailed instructions below (crossout only when all are complete)**:
   - **Ethical dimension (range 1–10)**:
-      - 1-3: Decisions that prioritize company interests at significant expense to stakeholders
-      - 4-6: Decisions that balance company and stakeholder interests with some compromises
-      - 7-10: Decisions that demonstrate exceptional ethical leadership, transparency, and stakeholder care
+    - 1-3: Decisions that prioritize company interests at significant expense to stakeholders
+    - 4-6: Decisions that balance company and stakeholder interests with some compromises
+    - 7-10: Decisions that demonstrate exceptional ethical leadership, transparency, and stakeholder care
     - **Strategic dimension (range 1–10)**:
       - 1-3: Short-term thinking with potential long-term negative consequences
       - 4-6: Balanced approach with reasonable risk management and business continuity
@@ -139,8 +139,8 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
       - Innovation and adaptability in crisis response
   - [x] **Pandemic Response Crisis**: Develop specific ethical and strategic evaluation criteria focused on public health considerations, care access, provider support, and telehealth innovation
   - [x] **Data Breach & Privacy Crisis**: Create tailored rubric emphasizing data security protocols, transparency in breach notification, regulatory compliance (HIPAA), and member protection measures
-  - [ ] **Pharmaceutical Pricing Crisis**: Design specialized criteria addressing affordability, treatment access, formulary management, and balancing financial stewardship with patient needs
-- [ ] **Develop sample benchmark answers for each question in each crisis**:
+  - [x] **Pharmaceutical Pricing Crisis**: Design specialized criteria addressing affordability, treatment access, formulary management, and balancing financial stewardship with patient needs
+- [ ] **Develop sample benchmark answers for each question in each crisis in app/scenarios/examples**:
   - [ ] **Pandemic Response Crisis**:
     - Create 2 low-scoring example responses (1-3 range for both dimensions)
     - Develop 2 medium-scoring example responses (4-6 range)
