@@ -97,7 +97,7 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
 - [x] **Draft scenario texts within app/scenarios**:
   - [x] Pandemic Response Crisis scenario created with detailed metrics, stakeholders, and timeline pressures
   - [x] Data Breach & Privacy Crisis scenario created with detailed metrics, stakeholders, and timeline pressures
-  - [ ] Pharmaceutical Pricing Crisis scenario
+  - [x] Pharmaceutical Pricing Crisis scenario created with detailed metrics, stakeholders, and timeline pressures
   - Always use concrete, real-world examples and NEVER use hypothetical placeholders like "City A" or "Company B" in prompts. Always refer to actual companies, cities, technologies, or other entities by their real names.
   - Include relevant industry data, regulatory considerations (HIPAA, ACA requirements), and market context
   - Present realistic financial implications, member impact statistics, and media/public reaction details
