@@ -101,10 +101,10 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
   - Always use concrete, real-world examples and NEVER use hypothetical placeholders like "City A" or "Company B" in prompts. Always refer to actual companies, cities, technologies, or other entities by their real names.
   - Include relevant industry data, regulatory considerations (HIPAA, ACA requirements), and market context
   - Present realistic financial implications, member impact statistics, and media/public reaction details
-- [ ] **Establish question sets for each scenario (crossout only when all are complete)**:
+- [x] **Establish question sets for each scenario (crossout only when all are complete)**:
   - [x] Pandemic Response Crisis
   - [x] Data Breach & Privacy Crisis
-  - [ ] Pharmaceutical Pricing Crisis
+  - [x] Pharmaceutical Pricing Crisis
   - For each scenario, create 3 complex decision points with multiple viable approaches.
   - Frame each question in very simple language, targeting smart 9th graders with your language
   - Design 3 open ended follow-up questions

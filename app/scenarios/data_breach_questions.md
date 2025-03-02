@@ -31,4 +31,4 @@ How would you address questions of leadership accountability for this breach, bo
 
 1. What criteria would you use to determine if personnel changes in your security or technology leadership are necessary?
 2. How would you respond to board members or shareholders calling for executive accountability, potentially including your own position?
-3. What approach would you take to balance acknowledging responsibility with protecting the company from legal liability? 
+3. What approach would you take to balance acknowledging responsibility with protecting the company from legal liability?
