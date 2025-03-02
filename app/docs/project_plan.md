@@ -140,8 +140,8 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
   - [x] **Pandemic Response Crisis**: Develop specific ethical and strategic evaluation criteria focused on public health considerations, care access, provider support, and telehealth innovation
   - [x] **Data Breach & Privacy Crisis**: Create tailored rubric emphasizing data security protocols, transparency in breach notification, regulatory compliance (HIPAA), and member protection measures
   - [x] **Pharmaceutical Pricing Crisis**: Design specialized criteria addressing affordability, treatment access, formulary management, and balancing financial stewardship with patient needs
-- [ ] **Develop sample benchmark answers for each question in each crisis in app/scenarios/examples**:
-  - [ ] **Pandemic Response Crisis**:
+- [x] **Develop sample benchmark answers for each question in each crisis in app/scenarios/examples**:
+  - [x] **Pandemic Response Crisis**:
     - Create 2 low-scoring example responses (1-3 range for both dimensions)
     - Develop 2 medium-scoring example responses (4-6 range)
     - Craft 2 high-scoring example responses (7-10 range)
