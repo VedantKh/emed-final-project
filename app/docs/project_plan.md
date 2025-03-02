@@ -138,7 +138,7 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
       - Reputation management and brand protection
       - Innovation and adaptability in crisis response
   - [x] **Pandemic Response Crisis**: Develop specific ethical and strategic evaluation criteria focused on public health considerations, care access, provider support, and telehealth innovation
-  - [ ] **Data Breach & Privacy Crisis**: Create tailored rubric emphasizing data security protocols, transparency in breach notification, regulatory compliance (HIPAA), and member protection measures
+  - [x] **Data Breach & Privacy Crisis**: Create tailored rubric emphasizing data security protocols, transparency in breach notification, regulatory compliance (HIPAA), and member protection measures
   - [ ] **Pharmaceutical Pricing Crisis**: Design specialized criteria addressing affordability, treatment access, formulary management, and balancing financial stewardship with patient needs
 - [ ] **Develop sample benchmark answers for each question in each crisis**:
   - [ ] **Pandemic Response Crisis**:
@@ -155,10 +155,10 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
     - Craft 2 high-scoring example responses (7-10 range)
 - [ ] **Compile real-world CEO crisis response examples**:
   - For each example, create a concise snippet (150-200 words) that includes:
-      - Brief context of the crisis
-      - Key decisions made by the CEO
-      - Outcomes and consequences (both positive and negative)
-      - Lessons learned that can be applied to similar situations
+    - Brief context of the crisis
+    - Key decisions made by the CEO
+    - Outcomes and consequences (both positive and negative)
+    - Lessons learned that can be applied to similar situations
   - [ ] **Pandemic Response Crisis**: For each question, research and document 1 example of how a real life healthcare CEO dealt with a very similar crisis and the results from the decisions they made
   - [ ] **Data Breach & Privacy Crisis**: For each question, research and document 1 example of how a real life healthcare CEO dealt with a very similar crisis and the results from the decisions they made
   - [ ] **Pharmaceutical Pricing Crisis**: For each question, research and document 1 example of how a real life healthcare CEO dealt with a very similar crisis and the results from the decisions they made
