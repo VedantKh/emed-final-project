@@ -29,6 +29,6 @@ Beyond this specific case, what long-term strategy would you develop to address 
 
 **Follow-up Questions:**
 
-1. What innovative payment or risk-sharing models might you explore with pharmaceutical companies for high-cost treatments?
+1. What payment or risk-sharing models might you explore with pharmaceutical companies for high-cost treatments? Think broadly.
 2. How would you engage with policymakers to address the systemic challenges of drug pricing while ensuring continued medical innovation?
-3. What internal processes or structures would you establish to better prepare your organization for future high-cost treatment decisions? 
+3. What internal processes or structures would you establish to better prepare your organization for future high-cost treatment decisions?

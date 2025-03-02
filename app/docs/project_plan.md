@@ -18,10 +18,12 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
    - After the user is done, the agent smoothly transitions to the next question.
    - Voice interaction is the primary mode of communication, creating a more immersive and natural experience.
 
-3. **Ethical & Strategic Scoring:**
+3. **Post-Conversation Ethical & Strategic Scoring:**
 
-   - Each answer (or potential approach) should be evaluated for _ethical_ considerations and _strategic_ soundness.
-   - The agent will produce a final rubric or grading summary once all questions have been addressed.
+   - After the conversation is complete, the full transcript will be analyzed by OpenAI o3 mini.
+   - Each answer will be evaluated for _ethical_ considerations and _strategic_ soundness based on the specific crisis rubric.
+   - A comprehensive evaluation report will be generated once the conversation has concluded.
+   - The evaluation will include real-world case snippets showing how actual CEOs handled similar crises and their outcomes.
 
 4. **Realtime Session Management with Audio:**
 
@@ -49,7 +51,9 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
    - A simple interface where the user selects a crisis scenario and then interacts primarily through voice.
    - Displays the scenario background and provides visual feedback for audio processing.
    - Shows the a summary of the most recent question the agent has asked.
-   - Once conversation is complete, a clear document with feedback and a score is returned based on the rubric.
+   - Once conversation is complete, displays a button to generate evaluation.
+   - Cool animation while loading
+   - After evaluation is processed, displays a comprehensive feedback document with scores based on the rubric.
 
 2. **WebRTC Audio Implementation:**
 
@@ -65,17 +69,20 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
    - Set up **VAD parameters** to optimize for natural conversation flow.
    - Handle audio streaming with appropriate events (`input_audio_buffer.append` for WebSocket or WebRTC media tracks).
    - Listen for audio-related events like `response.audio.delta` and `input_audio_buffer.speech_started/stopped`.
+   - Store complete conversation transcript for post-conversation evaluation.
 
 4. **Case Study Loader:**
 
    - Upon selection, load the relevant text file into the conversation context or keep it in memory to help shape generation.
    - Use `session.instructions` to inject scenario details and guide the model's role as an executive coach.
 
-5. **Scoring & Rubric (Function Calling Option):**
+5. **Post-Conversation Evaluation System:**
 
-   - Provide a tool/function like `score_answer(ethicalFactors, strategicFactors)` to assign final scores.
-   - The model can call this function, or the logic can be triggered on the client side once a question is answered.
-   - Results returned to the model as a `function_call_output` conversation item.
+   - After conversation completion, send the full transcript to OpenAI o3 mini.
+   - Include the specific crisis rubric as context for the evaluation.
+   - Generate comprehensive scoring across ethical and strategic dimensions.
+   - Include real-world case snippets of how actual CEOs handled similar situations.
+   - Return structured evaluation results to display to the user.
 
 6. **Follow-up Query Logic:**
 
@@ -83,12 +90,15 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
    - Then either user proceeds to finalize answer or jumps to the next question.
 
 7. **Final Summary/Grading:**
-   - Summarize user responses for each question, referencing the stored ethical and strategic scores.
-   - Provide an overall "rubric" at the end, delivered both verbally and in text form.
+   - After conversation completion, analyze the transcript using o3 mini.
+   - Generate a comprehensive evaluation report with scores for each question.
+   - Provide an overall "rubric" with detailed feedback on ethical and strategic dimensions.
+   - Include real-world case examples with outcomes for comparison.
+   - Display the evaluation report to the user after processing is complete.
 
 ## Project Phases & Tasks
 
-### Phase 1: **Scenario Design & Content Creation**
+### [Done] Phase 1: **Scenario Design & Content Creation**
 
 - [x] **Identify 3 crises**:
   - **Pandemic Response Crisis**: Managing coverage policies, telehealth expansion, and provider network strain during a major infectious disease outbreak (e.g., COVID-19)
@@ -111,17 +121,69 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
 
 ### Phase 2: **Scoring & Rubric Implementation**
 
-- [ ] **Define scoring schema**:
-  - Ethical dimension (range 1–5, for example)
-  - Strategic dimension (range 1–5)
-- [ ] **Implement function calling**:
-  - Add `score_answer` function in `session.tools` or `response.create` -> `tools`
-  - Let the model pass arguments (e.g., user's final response text, scenario context)
-  - Return numeric or descriptive score
-- [ ] **Summarize final rubric**:
-  - Tally and structure the final summary
-  - Have the agent verbally deliver the overall rating and feedback
-  - Also display text summary for reference
+- [ ] **Create custom rubrics for each crisis scenario following detailed instructions below (crossout only when all are complete)**:
+  - **Ethical dimension (range 1–10)**:
+      - 1-3: Decisions that prioritize company interests at significant expense to stakeholders
+      - 4-6: Decisions that balance company and stakeholder interests with some compromises
+      - 7-10: Decisions that demonstrate exceptional ethical leadership, transparency, and stakeholder care
+    - **Strategic dimension (range 1–10)**:
+      - 1-3: Short-term thinking with potential long-term negative consequences
+      - 4-6: Balanced approach with reasonable risk management and business continuity
+      - 7-10: Forward-thinking solutions that address immediate concerns while positioning for future advantage
+    - **Scoring criteria to include**:
+      - Transparency and communication approach
+      - Stakeholder impact consideration (members, providers, employees)
+      - Regulatory compliance and legal risk management
+      - Financial sustainability and business continuity
+      - Reputation management and brand protection
+      - Innovation and adaptability in crisis response
+  - [ ] **Pandemic Response Crisis**: Develop specific ethical and strategic evaluation criteria focused on public health considerations, care access, provider support, and telehealth innovation
+  - [ ] **Data Breach & Privacy Crisis**: Create tailored rubric emphasizing data security protocols, transparency in breach notification, regulatory compliance (HIPAA), and member protection measures
+  - [ ] **Pharmaceutical Pricing Crisis**: Design specialized criteria addressing affordability, treatment access, formulary management, and balancing financial stewardship with patient needs
+- [ ] **Develop sample benchmark answers for each question in each crisis**:
+  - [ ] **Pandemic Response Crisis**:
+    - Create 2 low-scoring example responses (1-3 range for both dimensions)
+    - Develop 2 medium-scoring example responses (4-6 range)
+    - Craft 2 high-scoring example responses (7-10 range)
+  - [ ] **Data Breach & Privacy Crisis**:
+    - Create 2 low-scoring example responses (1-3 range for both dimensions)
+    - Develop 2 medium-scoring example responses (4-6 range)
+    - Craft 2 high-scoring example responses (7-10 range)
+  - [ ] **Pharmaceutical Pricing Crisis**:
+    - Create 2 low-scoring example responses (1-3 range for both dimensions)
+    - Develop 2 medium-scoring example responses (4-6 range)
+    - Craft 2 high-scoring example responses (7-10 range)
+- [ ] **Compile real-world CEO crisis response examples**:
+  - For each example, create a concise snippet (150-200 words) that includes:
+      - Brief context of the crisis
+      - Key decisions made by the CEO
+      - Outcomes and consequences (both positive and negative)
+      - Lessons learned that can be applied to similar situations
+  - [ ] **Pandemic Response Crisis**: For each question, research and document 1 example of how a real life healthcare CEO dealt with a very similar crisis and the results from the decisions they made
+  - [ ] **Data Breach & Privacy Crisis**: For each question, research and document 1 example of how a real life healthcare CEO dealt with a very similar crisis and the results from the decisions they made
+  - [ ] **Pharmaceutical Pricing Crisis**: For each question, research and document 1 example of how a real life healthcare CEO dealt with a very similar crisis and the results from the decisions they made
+- [ ] **Implement post-conversation evaluation system**:
+  - Create API endpoint to process conversation transcript with o3 mini
+  - Design prompt template that includes:
+    - Full conversation transcript
+    - Crisis-specific rubric
+    - Scoring schema for ethical and strategic dimensions
+    - Instructions to evaluate each question response
+    - Real-world case snippet for comparison
+  - Structure the evaluation output to include:
+    - Scores for each question (ethical and strategic dimensions)
+    - Rationale for each score
+    - Specific improvement suggestions
+    - Relevant real-world CEO response example with outcomes
+    - Overall performance summary
+  - Implement UI component to display evaluation results
+- [ ] **Design evaluation report format**:
+  - Create template for displaying scores and feedback
+  - Include question-by-question breakdown
+  - Provide overall average scores for both dimensions
+  - Generate personalized strengths and areas for improvement
+  - Include visual representation of scores (if UI supports)
+  - Design section for displaying real-world CEO response examples
 
 ### Phase 3: **Realtime API Audio Setup**
 
@@ -137,6 +199,7 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
   - Set up event listeners for audio-related events
   - Implement visual feedback for audio processing
   - Configure real-time transcription display
+  - Store complete transcript for post-conversation evaluation
 - [ ] **Error handling**:
   - Implement event listeners for `error` events from the server
   - Handle audio connection issues and fallbacks
@@ -151,6 +214,10 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
   - Implement verbal commands for "move on" or similar transitions
   - Track follow-up count to ensure a maximum of 3 follow-ups
   - Handle interruptions and overlapping speech gracefully
+- [ ] **Transcript storage**:
+  - Capture and store the complete conversation transcript
+  - Include question prompts, user responses, and follow-up exchanges
+  - Format transcript appropriately for post-conversation evaluation
 
 ### Phase 5: **UI/UX Integration**
 
@@ -159,10 +226,17 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
   - Audio visualization for voice activity
   - Real-time transcription display
   - Minimal controls for audio settings
+  - Add "Generate Evaluation" button for post-conversation analysis
 - [ ] **Audio feedback components**:
   - Visual indicators for when the agent is listening
   - Indication when the agent is processing or speaking
   - Option to mute/unmute or pause the conversation
+- [ ] **Evaluation display components**:
+  - Design evaluation results view
+  - Create visual representation of scores
+  - Format detailed feedback in an easily digestible way
+  - Design section for displaying real-world CEO response examples
+  - Include comparison between user's approach and real-world examples
 - [ ] **Accessibility considerations**:
   - Ensure text transcription is available alongside audio
   - Provide visual cues for audio status
@@ -176,22 +250,22 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
   - Fine-tune prompt instructions for natural follow-up queries
 - [ ] **Validate Scenario Flow**:
   - Walk through each crisis end-to-end; test all questions verbally
-  - Check scoring calls and final summary
-  - Test with different speaking styles and accents
+  - Test transcript capture and storage
+  - Verify post-conversation evaluation with o3 mini
+  - Confirm real-world CEO examples are relevant and insightful
 - [ ] **Performance & Load Testing**:
   - Confirm Realtime audio sessions remain stable
   - Test in various network conditions
   - Ensure event handling covers edge cases
-- [ ] **User Acceptance & Feedback**:
-  - Gather feedback on voice interaction quality
-  - Assess question complexity and scoring accuracy
-  - Adjust instructions or voice parameters as needed
+  - Verify evaluation processing time is acceptable
 
 ## Future Considerations
 
 - **Additional Crises:** Expand to more scenarios or sub-scenarios.
 - **Voice Customization:** Allow users to select different voices for the agent to match preferences.
+- **Evaluation Comparison:** Enable comparison of multiple users' evaluations for training purposes.
+- **Expanded Real-World Examples:** Build a larger database of CEO crisis responses for more tailored comparisons.
 
 ---
 
-**By the end of Phase 6,** the agent should provide an engaging, voice-driven experience in navigating high-stakes healthcare crises, challenging users' thought processes through natural conversation while offering thorough feedback on ethical and strategic decision-making. This plan sets out all major tasks and dependencies to achieve that goal.
+**By the end of Phase 6,** the agent should provide an engaging, voice-driven experience in navigating high-stakes healthcare crises, challenging users' thought processes through natural conversation. The post-conversation evaluation using o3 mini will provide thorough feedback on ethical and strategic decision-making without interrupting the flow of the conversation, enhanced by real-world examples of how actual CEOs handled similar situations. This plan sets out all major tasks and dependencies to achieve that goal.
