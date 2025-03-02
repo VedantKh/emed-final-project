@@ -137,7 +137,7 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
       - Financial sustainability and business continuity
       - Reputation management and brand protection
       - Innovation and adaptability in crisis response
-  - [ ] **Pandemic Response Crisis**: Develop specific ethical and strategic evaluation criteria focused on public health considerations, care access, provider support, and telehealth innovation
+  - [x] **Pandemic Response Crisis**: Develop specific ethical and strategic evaluation criteria focused on public health considerations, care access, provider support, and telehealth innovation
   - [ ] **Data Breach & Privacy Crisis**: Create tailored rubric emphasizing data security protocols, transparency in breach notification, regulatory compliance (HIPAA), and member protection measures
   - [ ] **Pharmaceutical Pricing Crisis**: Design specialized criteria addressing affordability, treatment access, formulary management, and balancing financial stewardship with patient needs
 - [ ] **Develop sample benchmark answers for each question in each crisis**:
