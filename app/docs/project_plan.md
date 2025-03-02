@@ -162,9 +162,9 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
     - Key decisions made by the CEO
     - Outcomes and consequences (both positive and negative)
     - Lessons learned that can be applied to similar situations
-  - [ ] **Pandemic Response Crisis**: For each question, research and document 1 example of how a real life healthcare CEO dealt with a very similar crisis and the results from the decisions they made
-  - [ ] **Data Breach & Privacy Crisis**: For each question, research and document 1 example of how a real life healthcare CEO dealt with a very similar crisis and the results from the decisions they made
-  - [ ] **Pharmaceutical Pricing Crisis**: For each question, research and document 1 example of how a real life healthcare CEO dealt with a very similar crisis and the results from the decisions they made
+  - [x] **Pandemic Response Crisis**: For each question, research and document 1 example of how a real life healthcare CEO dealt with a very similar crisis and the results from the decisions they made
+  - [x] **Data Breach & Privacy Crisis**: For each question, research and document 1 example of how a real life healthcare CEO dealt with a very similar crisis and the results from the decisions they made
+  - [x] **Pharmaceutical Pricing Crisis**: For each question, research and document 1 example of how a real life healthcare CEO dealt with a very similar crisis and the results from the decisions they made
 
 ### Phase 3: **Scoring & Rubric Implementation**
 
