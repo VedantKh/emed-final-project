@@ -166,30 +166,71 @@ This project aims to build an interactive Realtime agent for simulating crisis-m
   - [x] **Data Breach & Privacy Crisis**: For each question, research and document 1 example of how a real life healthcare CEO dealt with a very similar crisis and the results from the decisions they made
   - [x] **Pharmaceutical Pricing Crisis**: For each question, research and document 1 example of how a real life healthcare CEO dealt with a very similar crisis and the results from the decisions they made
 
-### Phase 3: **Scoring & Rubric Implementation**
+### Phase 3: **Post-Conversation Evaluation System**
 
-- [ ] **Implement post-conversation evaluation system**:
-  - Create API endpoint to process conversation transcript with o3 mini
-  - Design prompt template that includes:
-    - Full conversation transcript
-    - Crisis-specific rubric
-    - Scoring schema for ethical and strategic dimensions
-    - Instructions to evaluate each question response
-    - Real-world case snippet for comparison
-  - Structure the evaluation output to include:
-    - Scores for each question (ethical and strategic dimensions)
-    - Rationale for each score
-    - Specific improvement suggestions
-    - Relevant real-world CEO response example with outcomes
-    - Overall performance summary
-  - Implement UI component to display evaluation results
-- [ ] **Design evaluation report format**:
-  - Create template for displaying scores and feedback
-  - Include question-by-question breakdown
-  - Provide overall average scores for both dimensions
-  - Generate personalized strengths and areas for improvement
-  - Include visual representation of scores (if UI supports)
-  - Design section for displaying real-world CEO response examples
+- [x] **Step 1: Create Evaluation API Endpoint Structure**:
+
+  - Create basic API endpoint file at `app/api/evaluate.js`
+  - Implement skeleton function that accepts conversation transcript
+  - Add basic validation for required parameters
+  - Test endpoint with simple mock data to ensure it returns a 200 response
+
+- [x] **Step 2: Scenario Content Loading**:
+
+  - Create utility function to load scenario-specific content (rubric, examples)
+  - Implement function to fetch the appropriate rubric based on scenario ID
+  - Add function to retrieve relevant benchmark examples
+  - Test content loading with each scenario type
+
+- [x] **Step 3: Basic Prompt Template Construction**:
+
+  - Create a simple prompt template that includes the conversation transcript
+  - Add the scenario-specific rubric to the prompt
+  - Include basic instructions for evaluation criteria
+  - Test prompt generation with sample conversations
+
+- [ ] **Step 4: Initial o3 mini Integration**:
+
+- [ ] **Step 5: Enhanced Prompt Engineering**:
+
+  - Refine prompt template to include specific scoring instructions
+  - Add structure for ethical and strategic dimension evaluations
+  - Include real-world case snippets in the prompt
+  - Test prompt effectiveness with various conversation scenarios
+
+- [ ] **Step 6: Response Parsing and Structuring**:
+
+  - Implement logic to parse o3 mini responses
+  - Extract scores for each question (ethical and strategic dimensions)
+  - Structure feedback in a consistent format
+  - Test parsing with various response formats
+
+- [ ] **Step 7: Evaluation Report Generation**:
+
+  - Create HTML/markdown templates for the evaluation report
+  - Design the layout for scores, feedback, and real-world examples
+  - Implement function to populate the report template
+  - Test report generation with different evaluation outcomes
+
+- [ ] **Step 8: API Response Formatting**:
+
+  - Finalize the API response structure
+  - Include scores, detailed feedback, and improvement suggestions
+  - Add real-world CEO examples for comparison
+  - Test the complete API flow with full conversation transcripts
+
+- [ ] **Step 9: Error Handling and Edge Cases**:
+
+  - Implement robust error handling for API failures
+  - Add fallback mechanisms for missing content
+  - Create graceful degradation for partial evaluations
+  - Test with intentionally problematic inputs
+
+- [ ] **Step 10: Performance Optimization**:
+  - Measure and optimize API response time
+  - Implement caching for static content (rubrics, examples)
+  - Add request throttling if needed
+  - Test with realistic conversation lengths to ensure acceptable performance
 
 ### Phase 4: **Realtime API Audio Setup**
 

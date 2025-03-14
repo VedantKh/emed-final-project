@@ -4,11 +4,10 @@
 
 ### 1-3: Decisions that prioritize company interests at significant expense to stakeholders
 
-- Conceals or minimizes the breach to protect company reputation
-- Delays notification to affected members beyond reasonable timeframes
-- Provides minimal support for affected members experiencing identity theft
-- Deflects responsibility and blames third parties without accepting accountability
-- Makes decisions primarily to limit legal and financial exposure
+- Focuses primarily on financial metrics and shareholder value
+- Implements policies that create barriers to notification or remediation
+- Shows minimal transparency about the breach
+- Demonstrates little consideration for affected members
 
 ### 4-6: Decisions that balance company and stakeholder interests with some compromises
 
