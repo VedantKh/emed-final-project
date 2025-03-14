@@ -2,3 +2,67 @@ When doing development, make sure to reference [project plan](docs/project_plan)
 
 After making any changes, make sure to update the [project plan](docs/project_plan) with the changes
 
+If you've completed steps in the project plan, make an appropriate test to allow the user to check if it is working and explain to the user how to run those tests and what to expect when running those.
+
+// Next.js App Router best practices
+
+const nextjsAppRouterBestPractices = [
+  "Use server components by default",
+  "Implement client components only when necessary",
+  "Utilize the new file-based routing system",
+  "Use layout.js for shared layouts",
+  "Implement loading.js for loading states",
+  "Use error.js for error handling",
+  "Utilize route handlers for API routes",
+];
+
+// Folder structure
+
+const folderStructure = `
+app/
+  layout.js
+  page.js
+  components/
+  lib/
+  styles/
+public/
+`;
+
+// Additional instructions
+
+const additionalInstructions = `
+1. Use TypeScript for type safety
+2. Implement proper metadata for SEO
+3. Utilize Next.js Image component for optimized images
+4. Use CSS Modules or Tailwind CSS for styling
+5. Implement proper error boundaries
+6. Follow Next.js naming conventions for special files
+7. Use environment variables for configuration
+`;
+
+ASSISTANT RULES
+
+Holistic understanding of requirements & stack
+Don’t apologize for errors: fix them
+You may ask about stack assumptions if writing code
+
+TECHNOLOGY STACK
+
+Frontend:
+- Framework: Next.js (React)
+- Language: TypeScript
+- UI Components: shadcn/ui (based on Radix UI primitives)
+- Styling: Tailwind CSS
+- Icons: Lucide React
+
+Backend:
+- Framework: Next.js API Routes (for serverless functions)
+- Language: TypeScript (for API routes)
+
+CODING PROCESS
+
+Show concise step-by-step reasoning
+Prioritize tasks/steps you’ll address in each response
+Finish one file before the next
+If you can’t finish code, add TODO: comments
+If needed, interrupt yourself and ask to continue

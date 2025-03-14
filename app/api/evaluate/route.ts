@@ -2,7 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 import { ScenarioId } from '@/app/lib/scenarios';
-import { constructEvaluationPrompt } from '@/app/lib/evaluation';
+import { 
+  constructEvaluationPrompt, 
+  evaluateConversation, 
+  EvaluationResult 
+} from '@/app/lib/evaluation';
 
 // Server-side functions to load content
 async function loadScenarioRubric(scenarioId: ScenarioId): Promise<string> {
@@ -56,19 +60,29 @@ export async function POST(request: NextRequest) {
     const examples = await loadScenarioExamples(scenarioId as ScenarioId);
     const realWorldExamples = await loadRealWorldExamples(scenarioId as ScenarioId);
     
-    // Basic response for now - we'll expand this in future steps
+    // Construct the prompt
+    const prompt = constructEvaluationPrompt(
+      transcriptText,
+      rubric,
+      examples,
+      realWorldExamples
+    );
+    
+    // Call OpenAI to evaluate the conversation
+    const evaluationResult = await evaluateConversation(prompt, scenarioId as ScenarioId);
+    
+    if (!evaluationResult) {
+      return NextResponse.json(
+        { error: 'Failed to evaluate conversation' },
+        { status: 500 }
+      );
+    }
+    
+    // Return the evaluation result
     return NextResponse.json({
       status: 'success',
-      message: 'Evaluation request received',
-      data: {
-        scenarioId,
-        transcriptLength: transcriptText.length,
-        prompt: {
-          rubric: rubric.slice(0, 100) + '...',  // Preview only
-          examples: examples.slice(0, 100) + '...',  // Preview only
-          realWorldExamples: realWorldExamples.slice(0, 100) + '...'  // Preview only
-        }
-      }
+      message: 'Evaluation completed successfully',
+      data: evaluationResult
     });
     
   } catch (error) {
