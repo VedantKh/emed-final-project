@@ -1,169 +1,349 @@
 "use client";
-import { useState } from "react";
-import { scenarios } from "../lib/scenarios";
 
-// Sample CEO response transcript for testing
-const sampleTranscript = `
-Interviewer: How would you approach the timing and extent of disclosure about the data breach to affected members, regulators, and the public?
+import { useState, useEffect, useRef } from "react";
+import { FlexibleScenario } from "../lib/scenarios-flexible";
+import { flexibleScenarios } from "../lib/scenarios-flexible";
+import type { EvaluationResult } from "../lib/evaluation-flexible";
+import VoiceInteraction from "../components/VoiceInteraction";
 
-CEO: I would implement an accelerated disclosure strategy prioritizing member protection and transparency. We'll notify all affected members within 15 days through multiple channels including email, express mail, and phone calls. Our notification will include specific details about what was compromised and immediate protective actions.
-
-Interviewer: How do you balance the need for a complete investigation with the urgency of notifying affected individuals about potential identity theft risks?
-
-CEO: While a complete investigation is important, the urgency of protecting our members from identity theft takes precedence. We won't wait for a complete investigation before notifying members about the breach.
-`;
-
-interface EvaluationResult {
-  // Add specific fields based on your API response structure
-  [key: string]: unknown; // Temporary type until we know the exact structure
+interface Message {
+  role: "user" | "assistant";
+  content: string;
 }
 
 export default function TestPage() {
-  const [scenarioId, setScenarioId] = useState("data_breach");
-  const [transcript, setTranscript] = useState(
-    `Interviewer: What is your strategy for telehealth expansion during this crisis?
-
-CEO: I would implement a three-pronged approach. First, we'll immediately invest in scaling our infrastructure by partnering with multiple telehealth platforms to create redundancy and expand capacity by 1500%. Second, we'll launch a rapid provider enablement program with dedicated technical support teams, simplified credentialing, and financial incentives for quick adoption. Third, we'll create a digital equity initiative with specialized support for elderly and low-income members, including simplified interfaces and potential device distribution through community partnerships.
-
-Interviewer: How would you balance financial sustainability with member coverage needs?
-
-CEO: I would waive all cost-sharing for COVID-related testing and treatment, removing financial barriers to necessary care during this crisis. For members facing economic hardship, we'll create a COVID Relief Program offering premium payment deferrals, hardship waivers, and simplified transitions to subsidized marketplace plans when appropriate. To manage the financial impact, we'll redirect funds from non-essential capital projects, draw from our reserves while staying above regulatory requirements, and engage with reinsurance partners.
-
-Interviewer: What is your approach to public relations and stakeholder communication?
-
-CEO: I would implement a comprehensive stakeholder communication strategy built on radical transparency, empathetic engagement, and decisive action. We'll publicly acknowledge our current bottom-quartile ranking on the COVID Coverage Scorecard and commit to specific improvements with measurable targets and regular public progress updates. We'll establish tailored communication channels for each stakeholder group and empower our customer service representatives to resolve issues efficiently. Rather than defending past decisions, we'll focus on forward-looking improvements and invite stakeholders to hold us accountable.`
+  const [selectedScenarioId, setSelectedScenarioId] = useState<string>(
+    flexibleScenarios[0].id
   );
-  const [evaluationResult, setEvaluationResult] = useState<any>(null);
+  const [scenario, setScenario] = useState<FlexibleScenario>(
+    flexibleScenarios[0]
+  );
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
+  const [evaluation, setEvaluation] = useState<EvaluationResult | null>(null);
+  const [isEvaluating, setIsEvaluating] = useState(false);
   const [error, setError] = useState("");
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const handleEvaluate = async () => {
-    if (!transcript) {
-      setError("Please enter a transcript");
-      return;
-    }
+  // Effect to update the scenario when selectedScenarioId changes
+  useEffect(() => {
+    const selected =
+      flexibleScenarios.find((s) => s.id === selectedScenarioId) ||
+      flexibleScenarios[0];
+    setScenario(selected);
+  }, [selectedScenarioId]);
 
-    setLoading(true);
-    setError("");
+  // Initialize conversation when the page loads
+  useEffect(() => {
+    // No longer auto-starting conversation to allow scenario selection first
+  }, []);
+
+  // Scroll to bottom of messages
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  // Start a new conversation
+  const startConversation = async () => {
+    setIsInitializing(true);
+    setMessages([]);
+    setIsComplete(false);
+    setEvaluation(null);
+    setError(""); // Clear any previous errors
 
     try {
-      const response = await fetch("/api/evaluate", {
+      const response = await fetch("/api/test/start", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          transcriptText: transcript,
-          scenarioId,
-        }),
+        body: JSON.stringify({ scenarioId: selectedScenarioId }),
       });
 
-      const result = await response.json();
+      const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || "Failed to evaluate");
+        throw new Error(data.error || "Failed to start conversation");
       }
 
-      setEvaluationResult(result.data);
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("An error occurred");
+      setMessages([{ role: "assistant", content: data.message }]);
+    } catch (error) {
+      console.error("Error starting conversation:", error);
+      setError(
+        (error as Error).message ||
+          "Failed to start conversation. Please try again."
+      );
+    } finally {
+      setIsInitializing(false);
+    }
+  };
+
+  // Handle sending user message
+  const handleSendMessage = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!input.trim() || loading) return;
+
+    const userMessage = input.trim();
+    setInput("");
+    setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch("/api/test/message", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message: userMessage }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to send message");
       }
+
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: data.message },
+      ]);
+      setIsComplete(data.isComplete || false);
+    } catch (error) {
+      console.error("Error sending message:", error);
+      setError(
+        (error as Error).message || "Failed to send message. Please try again."
+      );
     } finally {
       setLoading(false);
     }
   };
 
+  // Evaluate the conversation
+  const handleEvaluate = async () => {
+    if (isEvaluating) return;
+    setIsEvaluating(true);
+
+    try {
+      const response = await fetch("/api/test/evaluate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) throw new Error("Failed to evaluate conversation");
+
+      const data = await response.json();
+      setEvaluation(data.evaluation);
+    } catch (error) {
+      console.error("Error evaluating conversation:", error);
+    } finally {
+      setIsEvaluating(false);
+    }
+  };
+
+  // Handle transcript updates from voice interaction
+  const handleTranscriptUpdate = (transcript: string) => {
+    setInput(transcript);
+  };
+
+  // Handle voice interaction errors
+  const handleVoiceError = (error: string) => {
+    setError(error);
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center p-8 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8">CEO Evaluation Test Page</h1>
+    <div className="container mx-auto p-4 max-w-4xl">
+      <h1 className="text-2xl font-bold mb-4">
+        Healthcare Leadership Decision Simulator
+      </h1>
 
-      <div className="w-full space-y-6">
-        <div>
-          <label className="block text-sm font-medium mb-2">
-            Select Scenario
-          </label>
-          <select
-            className="w-full p-2 border border-gray-300 rounded"
-            value={scenarioId}
-            onChange={(e) => setScenarioId(e.target.value)}
-          >
-            {scenarios.map((scenario) => (
-              <option key={scenario.id} value={scenario.id}>
-                {scenario.title}
-              </option>
-            ))}
-          </select>
+      <div className="mb-6">
+        <div className="bg-blue-50 p-4 rounded-lg mb-2">
+          <h2 className="font-bold text-lg mb-2">
+            Your Challenge: {scenario.title}
+          </h2>
+          <p className="mb-2">{scenario.contextParams.incidentType}</p>
+
+          {messages.length === 0 && (
+            <>
+              <div className="mb-4">
+                <label className="block mb-2">Select a scenario:</label>
+                <select
+                  value={selectedScenarioId}
+                  onChange={(e) => setSelectedScenarioId(e.target.value)}
+                  className="p-2 border rounded w-full"
+                >
+                  {flexibleScenarios.map((s) => (
+                    <option key={s.id} value={s.id}>
+                      {s.title}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <button
+                onClick={startConversation}
+                disabled={isInitializing}
+                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-50"
+              >
+                {isInitializing ? "Getting ready..." : "Start Conversation"}
+              </button>
+            </>
+          )}
+
+          {messages.length > 0 && (
+            <button
+              onClick={startConversation}
+              disabled={isInitializing}
+              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-50"
+            >
+              {isInitializing ? "Getting ready..." : "Start Over"}
+            </button>
+          )}
         </div>
+      </div>
 
-        <div>
-          <label className="block text-sm font-medium mb-2">
-            Conversation Transcript
-          </label>
-          <textarea
-            className="w-full h-64 p-2 border border-gray-300 rounded"
-            value={transcript}
-            onChange={(e) => setTranscript(e.target.value)}
-            placeholder="Enter the conversation transcript here..."
+      {/* Error message display */}
+      {error && (
+        <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md">
+          {error}
+        </div>
+      )}
+
+      {/* Chat messages */}
+      <div className="bg-white border border-gray-200 rounded-lg p-4 h-[calc(100vh-400px)] overflow-y-auto mb-4">
+        {messages.length === 0 && isInitializing ? (
+          <div className="flex items-center justify-center h-full">
+            <p className="text-gray-500">Setting up your scenario...</p>
+          </div>
+        ) : messages.length === 0 ? (
+          <div className="flex items-center justify-center h-full">
+            <p className="text-gray-500">Your conversation will appear here</p>
+          </div>
+        ) : (
+          messages.map((message, index) => (
+            <div
+              key={index}
+              className={`mb-4 p-3 rounded-lg max-w-[80%] ${
+                message.role === "user" ? "bg-blue-100 ml-auto" : "bg-gray-100"
+              }`}
+            >
+              <p className="font-semibold mb-1">
+                {message.role === "user" ? "You" : "Leadership Coach"}
+              </p>
+              <p>{message.content}</p>
+            </div>
+          ))
+        )}
+        <div ref={messagesEndRef} />
+      </div>
+
+      {/* Voice interaction */}
+      {messages.length > 0 && !isComplete && (
+        <div className="mb-4">
+          <VoiceInteraction
+            onTranscriptUpdate={handleTranscriptUpdate}
+            onError={handleVoiceError}
           />
         </div>
+      )}
 
-        <button
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
-          onClick={handleEvaluate}
-          disabled={loading}
-        >
-          {loading ? "Evaluating..." : "Evaluate Response"}
-        </button>
+      {/* Input form */}
+      <form onSubmit={handleSendMessage} className="mb-6">
+        <div className="flex gap-2">
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            disabled={isInitializing || loading || isComplete}
+            placeholder={
+              isComplete ? "Exercise complete" : "Type your response here..."
+            }
+            className="flex-1 p-2 border border-gray-300 rounded disabled:opacity-50"
+          />
+          <button
+            type="submit"
+            disabled={isInitializing || loading || !input.trim() || isComplete}
+            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-50"
+          >
+            {loading ? "Sending..." : "Send"}
+          </button>
+        </div>
+      </form>
 
-        {error && (
-          <div className="text-red-600 bg-red-50 p-4 rounded">{error}</div>
-        )}
+      {/* Evaluation section */}
+      {isComplete && (
+        <div className="mt-6 border-t pt-4">
+          <h2 className="text-xl font-bold mb-4">Exercise Complete!</h2>
+          {!evaluation ? (
+            <button
+              onClick={handleEvaluate}
+              disabled={isEvaluating}
+              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded disabled:opacity-50"
+            >
+              {isEvaluating ? "Looking at your answers..." : "See How You Did"}
+            </button>
+          ) : (
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h3 className="text-lg font-bold mb-2">Your Results</h3>
 
-        {evaluationResult && (
-          <div className="bg-gray-50 p-4 rounded">
-            <h2 className="text-xl font-bold mb-4">Evaluation Result</h2>
-            
-            <div className="mb-6">
-              <h3 className="text-lg font-bold mb-2">Overall Assessment</h3>
-              <div className="bg-white p-3 rounded border">
-                {evaluationResult.overallFeedback}
+              <div className="mb-4">
+                <h4 className="font-bold">Overall Feedback:</h4>
+                <p>{evaluation.overallFeedback}</p>
               </div>
-            </div>
-            
-            {evaluationResult.questionScores.map((score: any, index: number) => (
-              <div key={index} className="mb-6 border-t pt-4">
-                <h3 className="text-lg font-bold mb-2">Question {index + 1}</h3>
-                
-                <div className="grid grid-cols-2 gap-4 mb-3">
-                  <div className="bg-blue-50 p-3 rounded">
-                    <span className="font-bold">Ethical Score:</span> {score.ethical}/10
+
+              {evaluation.questionScores?.map((score, i) => (
+                <div
+                  key={i}
+                  className="mb-4 p-3 bg-white rounded-lg border border-gray-200"
+                >
+                  <h4 className="font-bold">Question {i + 1}</h4>
+                  <div className="flex gap-4 mt-2 mb-2">
+                    <div className="bg-blue-100 px-3 py-1 rounded">
+                      Ethical Score: {score.ethical}/10
+                    </div>
+                    <div className="bg-green-100 px-3 py-1 rounded">
+                      Strategic Score: {score.strategic}/10
+                    </div>
                   </div>
-                  <div className="bg-green-50 p-3 rounded">
-                    <span className="font-bold">Strategic Score:</span> {score.strategic}/10
-                  </div>
+                  <p>{score.feedback}</p>
                 </div>
-                
-                <div className="mb-3">
-                  <h4 className="font-bold mb-1">Feedback</h4>
-                  <div className="bg-white p-3 rounded border">
-                    {score.feedback}
-                  </div>
+              ))}
+
+              {evaluation.developmentRecommendations?.length > 0 && (
+                <div className="mb-4">
+                  <h4 className="font-bold">Tips for Improvement:</h4>
+                  <ul className="list-disc pl-5">
+                    {evaluation.developmentRecommendations.map(
+                      (rec: string, i: number) => (
+                        <li key={i}>{rec}</li>
+                      )
+                    )}
+                  </ul>
                 </div>
-                
+              )}
+
+              {evaluation.realWorldComparisons?.length > 0 && (
                 <div>
-                  <h4 className="font-bold mb-1">Real-World Comparison</h4>
-                  <div className="bg-white p-3 rounded border">
-                    {evaluationResult.realWorldComparisons[index]}
-                  </div>
+                  <h4 className="font-bold">Real-World Examples:</h4>
+                  <ul className="list-disc pl-5">
+                    {evaluation.realWorldComparisons.map(
+                      (comparison: string, i: number) => (
+                        <li key={i}>{comparison}</li>
+                      )
+                    )}
+                  </ul>
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </main>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
   );
 }

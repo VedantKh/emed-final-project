@@ -1,3 +1,5 @@
+import path from "path";
+
 // Define scenario types
 export type ScenarioId = "data_breach" | "pandemic_response" | "pharma_pricing";
 

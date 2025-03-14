@@ -1,65 +1,93 @@
-import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-import { ScenarioId } from '@/app/lib/scenarios';
-import { 
-  constructEvaluationPrompt, 
-  evaluateConversation, 
-  EvaluationResult 
-} from '@/app/lib/evaluation';
+import { NextRequest, NextResponse } from "next/server";
+import fs from "fs";
+import path from "path";
+import { ScenarioId } from "@/app/lib/scenarios";
+import {
+  constructEvaluationPrompt,
+  evaluateConversation,
+  EvaluationResult,
+} from "@/app/lib/evaluation";
 
 // Server-side functions to load content
 async function loadScenarioRubric(scenarioId: ScenarioId): Promise<string> {
   try {
-    const filePath = path.join(process.cwd(), 'app/scenarios/rubrics', `${scenarioId}.md`);
-    const content = await fs.promises.readFile(filePath, 'utf-8');
+    const filePath = path.join(
+      process.cwd(),
+      "app/scenarios/rubrics",
+      `${scenarioId}.md`
+    );
+    const content = await fs.promises.readFile(filePath, "utf-8");
     return content;
   } catch (error) {
     console.error(`Failed to load rubric for ${scenarioId}:`, error);
-    return 'Rubric content not available';
+    return "Rubric content not available";
   }
 }
 
 async function loadScenarioExamples(scenarioId: ScenarioId): Promise<string> {
   try {
-    const filePath = path.join(process.cwd(), 'app/scenarios/examples', `${scenarioId}.md`);
-    const content = await fs.promises.readFile(filePath, 'utf-8');
+    const filePath = path.join(
+      process.cwd(),
+      "app/scenarios/examples",
+      `${scenarioId}.md`
+    );
+    const content = await fs.promises.readFile(filePath, "utf-8");
     return content;
   } catch (error) {
     console.error(`Failed to load examples for ${scenarioId}:`, error);
-    return 'Example content not available';
+    return "Example content not available";
   }
 }
 
 async function loadRealWorldExamples(scenarioId: ScenarioId): Promise<string> {
   try {
-    const filePath = path.join(process.cwd(), 'app/scenarios/examples', `${scenarioId}_real_world.md`);
-    const content = await fs.promises.readFile(filePath, 'utf-8');
+    const filePath = path.join(
+      process.cwd(),
+      "app/scenarios/examples",
+      `${scenarioId}_real_world.md`
+    );
+    const content = await fs.promises.readFile(filePath, "utf-8");
     return content;
   } catch (error) {
-    console.error(`Failed to load real-world examples for ${scenarioId}:`, error);
-    return 'Real-world example content not available';
+    console.error(
+      `Failed to load real-world examples for ${scenarioId}:`,
+      error
+    );
+    return "Real-world example content not available";
   }
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<
+  NextResponse<
+    | {
+        status: string;
+        message: string;
+        data: EvaluationResult;
+      }
+    | {
+        error: string;
+      }
+  >
+> {
   try {
     const body = await request.json();
     const { transcriptText, scenarioId } = body;
-    
+
     // Validate required parameters
     if (!transcriptText || !scenarioId) {
       return NextResponse.json(
-        { error: 'Missing required parameters (transcriptText or scenarioId)' },
+        { error: "Missing required parameters (transcriptText or scenarioId)" },
         { status: 400 }
       );
     }
-    
+
     // Load scenario-specific content
     const rubric = await loadScenarioRubric(scenarioId as ScenarioId);
     const examples = await loadScenarioExamples(scenarioId as ScenarioId);
-    const realWorldExamples = await loadRealWorldExamples(scenarioId as ScenarioId);
-    
+    const realWorldExamples = await loadRealWorldExamples(
+      scenarioId as ScenarioId
+    );
+
     // Construct the prompt
     const prompt = constructEvaluationPrompt(
       transcriptText,
@@ -67,29 +95,31 @@ export async function POST(request: NextRequest) {
       examples,
       realWorldExamples
     );
-    
+
     // Call OpenAI to evaluate the conversation
-    const evaluationResult = await evaluateConversation(prompt, scenarioId as ScenarioId);
-    
+    const evaluationResult = await evaluateConversation(
+      prompt,
+      scenarioId as ScenarioId
+    );
+
     if (!evaluationResult) {
       return NextResponse.json(
-        { error: 'Failed to evaluate conversation' },
+        { error: "Failed to evaluate conversation" },
         { status: 500 }
       );
     }
-    
+
     // Return the evaluation result
     return NextResponse.json({
-      status: 'success',
-      message: 'Evaluation completed successfully',
-      data: evaluationResult
+      status: "success",
+      message: "Evaluation completed successfully",
+      data: evaluationResult,
     });
-    
   } catch (error) {
-    console.error('Error in evaluation endpoint:', error);
+    console.error("Error in evaluation endpoint:", error);
     return NextResponse.json(
-      { error: 'Failed to process evaluation request' },
+      { error: "Failed to process evaluation request" },
       { status: 500 }
     );
   }
-} 
+}
